@@ -16,7 +16,7 @@ before_script:
 - node_modules/.bin/newman --version
 script:
 - mvn clean install dockerfile:build
-- docker run --name example_api -d -t -p 127.0.0.1:8080:8080 my_docker_repo/swagger-spring-example:1.0.0
+- docker run --name example_api -d -t -p 127.0.0.1:8080:8080 ivanmilchev/devops_week2/swagger-spring-example:1.0.0
 - docker ps
 - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8080);
   do printf '.' && sleep 3 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
@@ -25,5 +25,9 @@ script:
 - node_modules/.bin/newman run tests/postman_collection.json -e tests/postman_environment.json
 after_success:
 - docker login -u $DOCKER_USER -p $DOCKER_PASS
-- docker tag my_docker_repo/swagger-spring-example:1.0.0 my_docker_repo/swagger-spring-example:1.0.0
-- docker push my_docker_repo/swagger-spring-example:1.0.0
+- docker tag ivanmilchev/devops_week2/swagger-spring-example:1.0.0 ivanmilchev/devops_week2/swagger-spring-example:1.0.0
+- docker push ivanmilchev/devops_week2/swagger-spring-example:1.0.0
+env:
+  global:
+  - secure: nccEmaNaA8hhbCdINWPefnuS6QrEs1dJ4PUoWZWYNxT9/vNVz0MPH36Xrp99e4M1gb6Fqci2QloJ9GGwNz5750Rs728qan8LcpLxn4Y/Rt1gzUGBOIXO/8iqqavLzZISSXzOboJiS4sZBo478BwDTldTc6Y2Ns9tezzUVfrvNfjvF4nkbqOJzaqFySsNBo7N7HItz8M02/GFWTOjCgfJHCN10QcVGbXIevVOP2kRSni/n6GkG05n2VQXVncokooMVd2tWSX8twsT/5zl127UgmnbJiI6tr2jkFjcbXTAQ6Y1VeglBi/INYymU7wK/x4v017mBxZ87jLXFG0CFMI/0ZWYk+kejavJ0ar3h8oYFUFtpGWjG8JfpBQzAIioe+7onLi1gZCUQngqyuMTEl7iDGicZhKcqa674FWcTX64hznXBWbSk+LCjf5vcWEpAqPEjoNc9Wl/QDJIS/6+d8uz6p1PaKI63P0eHyJnGHrlo4H9XgLp+ZWTSQ7bEfERAT+g2Z6Hjzjk7Hpm4ThfYnsXeui4uvhWr5/ST3SxN6i+LO7dEULnrGh34H/Fi1xBUecjj6nN4kqw1fp+jY1kmrzsV8ArRQPY8zDUWgCuE+HByflKaJoiaGUaQ0dzYcqrdCXXt/6VQO6ym/kKtdKLketGJkIGmvF5jcx2JKlcSJxx+yo=
+  - secure: Xgw0nJWwHdqvf+hejnDVUHwENaORE+SEBlPLp4gBS8BTH4Im7QGA7FJ5XhXhtG7/+2WZPwGvx6qMz0XerABlVKvB6PxuGzwQAP+e/SEjdR203JH2bN1bzCnpjU4LjuCMJGqb5VuKi4Zu+aewAm7+8fYgbPVnbhLsmUHSfnOXIPDEameFIS1Netc1wG9iSdqLHftj6Ouv4OQgCLc3EBPwtHfU/oK0ZQGl0uJlB0L57V+cYbUF/q0+XyWAQh4Unvc9F5v1ulPLrDXu31bas1rQx4rqk/j31l4I1YP8TeBwfpYw6bBpi3DE1HTI5sVZ934KET4NNmUwV8YrWAF3P0EDqv2usIXaewD/M+urpjEYzvAUeezDBVZ/1/zHoqm4gPd/HyrUw4Ds0ApXl5achPGtOTN6gCD6nMAED+9cShWBIReTfs8GLS4mQMFMmCJMrh1v24HgAL39d9YsSTKcR4Zi/25Dzf77007jHp9eZXJuv6tAOTcr8JUDROhKrli3R4IXUQw0B4DYMhC13lFmxmIWoISNqCJjOo5NKkffTbO0uJ7neJu0+5zmcCVxOinQAZF395bmoaC3T5hj6sHxiQ5Lk7zBiN8unkPlS43zJvmuj1ij3PHp3faGh7U77JZJOQvRXDtBCSGaGecpMhtd1TNNOGOSiYqZT6lmYqC4voLVDvM=
